@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang=""ko">
+<head>
+    <title>최민명</title>
+</head>
+<body>
+    <header>
+    <h1>동아리 가입 양식</h1>
+    </header>
+    <main>
+    <form>
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" required><br/>
+        <label for="major">학부/학과</label>
+        <select id="major" name="major">
+            <option value="none">선택</option>
+            <option value="소프트웨어융합전공">소프트웨어융합전공</option>
+            <option value="컴퓨터과학전공(첨단)">컴퓨터과학전공(첨단)</option>
+            <option value="데이터사이언스전공">데이터사이언스전공</option>
+        </select><br/>
+        <label for="grade">학년</label>
+        <input type="radio" id="1학년" name="grade" value="1학년">
+        <label for="1학년">1학년</label>
+        <input type="radio" id="2학년" name="grade" value="2학년">
+        <label for="2학년">2학년</label>
+        <input type="radio" id="3학년" name="grade" value="3학년">
+        <label for="3학년">3학년</label>
+        <input type="radio" id="4학년" name="grade" value="4학년">
+        <label for="4학년">4학년</label><br/>
+        <label for="num">학번</label>
+        <input type="text" id="num" name="num" required><br/>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" placeholder="id@host.com"><br/>
+        <label for="p_num">전화번호</label>
+        <input type="tel" id="p_num" name="p_num" placeholder="010-1234-5678" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required><br/>
+        <label for="motive">가입 동기</label>
+        <textarea name="motive" rows="2" cols="30" required></textarea><br/>
+        <input type="submit" value="가입하기">
+        <input type="reset" value="취소하기">
+    </form>
+    </main>
+</body>
+</html>
