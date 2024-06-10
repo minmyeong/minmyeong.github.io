@@ -3,18 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Reaction Time Game</title>
     <style>
-        h1{
-            color:white;
+        h1 {
+            color: white;
             display: flex;
+            background-color: transparent;
         }
-        *{
+        body {
             background-color: red;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
         }
-        a{
+        a {
             text-decoration: none;
-            color:white;
+            color: white;
+        }
+        #clickButton, #startButton, #nicknameButton {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #clickButton {
+            display: none;
+        }
+        #nicknamePopup, #popup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(128, 128, 128, 0.8); /* 투명도 조절 */
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        #popup button, #nicknamePopup button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -23,15 +63,70 @@
         <a href='final_project.html'> <- 홈 화면으로 돌아가기</a>
         <h1>화면이 다른 색으로 변하면 클릭</h1>
     </header>
-    <nav>
-    </nav>
-    <aside>
-    </aside>
-    <footer>
-
-    </footer>
+    <button id="startButton">게임 시작</button>
+    <button id="clickButton">클릭!</button>
+    <div id="popup">
+        <p id="reactionTime"></p>
+        <button id="restartButton">다시 시작하기</button>
+        <button onclick="window.location.href='final_project.html'">홈 화면으로 돌아가기</button>
+    </div>
+    <div id="nicknamePopup">
+        <input type="text" id="nicknameInput" placeholder="닉네임을 입력하세요">
+        <button id="nicknameButton">확인</button>
+    </div>
     <script>
+        let startTime;
+        let timeoutId;
+        let nickname;
+
+        function startGame() {
+            document.getElementById('nicknamePopup').style.display = 'block';
+        }
+
+        function changeColor() {
+            document.body.style.backgroundColor = 'green';
+            startTime = new Date().getTime();
+            document.getElementById('clickButton').style.display = 'block';
+        }
+
+        function endGame() {
+            let endTime = new Date().getTime();
+            let reactionTime = (endTime - startTime) / 1000;
+            document.getElementById('reactionTime').innerText = `반응 시간: ${reactionTime}초`;
+            document.getElementById('popup').style.display = 'block';
+            clearTimeout(timeoutId);
+            document.body.style.backgroundColor = 'red';
+            document.getElementById('clickButton').style.display = 'none';
+            saveRanking();
+        }
+
+        function saveRanking() {
+            // 여기에 랭킹 저장 로직을 구현하세요.
+            // 예: localStorage를 사용하여 랭킹을 저장합니다.
+            // 예: localStorage.setItem(nickname, reactionTime);
+        }
+
+        document.getElementById('clickButton').addEventListener('click', endGame);
+
+        document.getElementById('restartButton').addEventListener('click', function() {
+            startGame();
+        });
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            startGame();
+        });
+
+        document.getElementById('nicknameButton').addEventListener('click', function() {
+            nickname = document.getElementById('nicknameInput').value;
+            document.getElementById('nicknamePopup').style.display = 'none';
+            document.getElementById('clickButton').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+            document.body.style.backgroundColor = 'red';
+            timeoutId = setTimeout(changeColor, Math.random() * 5000 + 2000);
+        });
+
+        // 화면 어느 곳을 클릭해도 게임이 끝나도록 설정
+        document.body.addEventListener('click', endGame);
     </script>
 </body>
 </html>
- 
