@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <h1>로또 번호 생성기</h1>
+    <button onclick="openLotto()">로또 번호 생성 페이지 열기</button>
+
+    <script>
+        let lottoWindow;
+
+        function openLotto() {
+            const width = 400;
+            const height = 300;
+            var left = (screen.availWidth - width) / 2;
+            var top = (screen.availHeight - height) / 2;
+            var opt = "left=" + left + ",top=" + top + ",width=" + width + ",height=" + height;
+            var lottoWindow = window.open('Lab06-02.html', 'LottoWindow', opt);
+}
+    </script>
+</body>
+</html>
+ 

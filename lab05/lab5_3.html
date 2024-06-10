@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+
+    </head>
+    <body>
+        <script>
+            var name = prompt("이름을 입력하시오.")
+            var age = prompt("나이를 입력하시오(숫자)")
+            var height = prompt("키를 입력하시오(숫자)")
+            var weight = prompt("체중을 입력하시오(숫자)")
+            function cal_obesity(height, weight, age){
+                let obesity = weight/((height/100)**2)
+                if (age>=30){
+                    if (obesity > 30){
+                        return "비만("+obesity+")"
+                    }
+                    else if (obesity >=25){
+                        return "과체중("+obesity+")"
+                    }
+                    else if (obesity >= 18.5){
+                        return "표준체중("+obesity+")"
+                    }
+                    else {
+                        return "저체중("+obesity+")"
+                    }
+                }
+                else{
+                    if (obesity > 30){
+                        return "비만("+obesity+")"
+                    }
+                    else if (obesity >=24){
+                        return "과체중("+obesity+")"
+                    }
+                    else if (obesity >= 18){
+                        return "표준체중("+obesity+")"
+                    }
+                    else {
+                        return "저체중("+obesity+")"
+                    }
+                }
+            }
+            document.write("이름:"+name+"</br>나이:"+age+"</br>키:"+height+"</br>체중:"+weight+"</br>당신은 "+cal_obesity(height,weight,age)+"입니다.")
+        </script>
+    </body>
+</html>
