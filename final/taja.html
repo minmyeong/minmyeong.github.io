@@ -1,30 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <style>
-        header{
-            text-align: center;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>타자 연습 게임</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1, h3 {
+      color: #333;
+    }
+    input {
+      width: 70%;
+      height: 50px;
+      font-size: 25px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      margin: 10px auto; /* 가운데 정렬을 위해 margin 추가 */
+      display: none; /* 초기에는 입력 칸을 숨깁니다 */
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #333;
+      text-align: left;
+      max-width: 90%;
+      overflow-x: auto;
+      display: none; /* 결과 창 초기에는 숨김 */
+    }
+    table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    header {
+      text-align: left;
+      padding: 10px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    header a {
+      text-decoration: none;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    var sentences = [
+      "안녕하세요. 한국 문장 치기 연습입니다.",
+      "오늘은 날씨가 좋네요.",
+      "저는 한국어를 배우고 있습니다.",
+      "맛있는 음식을 먹으러 가요.",
+      "여행을 계획 중입니다.",
+      "오늘은 무슨 영화를 볼까요?",
+      "운동을 할 시간이 필요해요.",
+      "새로운 책을 읽고 있어요.",
+      "가족과 함께 시간을 보내는 것이 좋아요.",
+      "일을 열심히 하면 좋은 결과가 있을 거예요.",
+      "휴식이 필요한 날입니다.",
+      "친구들과 모임을 가졌어요.",
+      "여름에는 바다로 여행을 가고 싶어요.",
+      "한국 음식을 좋아합니다.",
+      "시간을 효율적으로 관리해야 해요.",
+      "문화를 이해하는 것이 중요합니다.",
+      "건강한 생활습관을 유지해야 해요.",
+      "꿈을 이루기 위해 노력해야 합니다.",
+      "성공을 위해 계획을 세워야 해요.",
+      "실패를 두려워하지 말고 도전해보세요.",
+      "자유롭게 표현하는 것이 중요합니다.",
+      "좋은 사회적 관계를 유지해야 합니다.",
+      "환경을 보호하는 것이 필요합니다.",
+      "기술의 발전이 빠르게 이루어지고 있어요.",
+      "인터넷은 우리에게 많은 정보를 제공해줍니다.",
+      "영화를 보면서 즐거운 시간을 보내고 싶어요.",
+      "운동을 통해 건강을 유지해야 합니다.",
+      "게임은 재미있는 활동입니다.",
+      "공부를 열심히 하면 좋은 성적을 얻을 수 있어요.",
+      "새로운 경험을 해보는 것이 좋습니다.",
+      "음악은 마음을 편안하게 해줍니다.",
+      "여가 시간에는 취미 활동을 즐기세요."
+    ];
+
+    var currentSentence;
+    var startTime;
+    var endTime;
+    var totalSentences = 5; // 입력할 문장의 수
+    var typedSentences = [];
+    var sentenceIndex = 0;
+
+    function startGame() {
+      if (sentenceIndex === 0) {
+        typedSentences = []; // 게임을 다시 시작할 때 초기화
+        document.getElementById("gametitle").style.display = 'none';
+        document.getElementById("start-description").style.display = "none"; // 시작 설명 숨기기
+      }
+
+      // 문장 보여주기
+      currentSentence = getRandomSentence();
+      document.getElementById("sentence").textContent = currentSentence;
+
+      // 입력 칸 보이기
+      document.getElementById("input").style.display = 'block';
+      document.getElementById("input").value = "";
+      document.getElementById("input").disabled = false;
+      document.getElementById("input").focus();
+
+      // 시작 버튼 숨기기
+      document.getElementById("start-button").style.display = "none";
+
+      // 시작 시간 기록
+      startTime = new Date().getTime();
+    }
+
+    function getRandomSentence() {
+      var randomIndex = Math.floor(Math.random() * sentences.length);
+      return sentences[randomIndex];
+    }
+
+    function endGame() {
+      if (sentenceIndex < totalSentences) {
+        endTime = new Date().getTime();
+        var totalTime = (endTime - startTime) / 1000;
+        var typedText = document.getElementById("input").value.trim();
+        var typedLength = typedText.length;
+        var sentenceLength = currentSentence.length;
+        var errors = 0;
+
+        // Calculate errors based on Levenshtein distance
+        errors = levenshteinDistance(currentSentence, typedText);
+
+        typedSentences.push({
+          sentence: currentSentence,
+          time: totalTime,
+          errors: errors
+        });
+
+        sentenceIndex++;
+
+        if (sentenceIndex < totalSentences) {
+          startGame();
+        } else {
+          showResult();
         }
-    </style>
+      }
+    }
+
+    // Function to calculate Levenshtein distance (edit distance)
+    function levenshteinDistance(a, b) {
+      var matrix = [];
+      var cost;
+
+      if (a.length === 0) return b.length;
+      if (b.length === 0) return a.length;
+
+      // Initialize matrix
+      for (var i = 0; i <= b.length; i++) {
+        matrix[i] = [i];
+      }
+
+      for (var j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+      }
+
+      // Calculate Levenshtein distance
+      for (var i = 1; i <= b.length; i++) {
+        for (var j = 1; j <= a.length; j++) {
+          cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j] + 1,    // Deletion
+            matrix[i][j - 1] + 1,    // Insertion
+            matrix[i - 1][j - 1] + cost  // Substitution
+          );
+        }
+      }
+
+      return matrix[b.length][a.length];
+    }
+
+    function showResult() {
+      var totalTypingTime = 0;
+      var totalErrors = 0;
+      var totalTypingSpeed = 0;
+
+      typedSentences.forEach(function(item) {
+        totalTypingTime += item.time;
+        totalErrors += item.errors;
+      });
+
+      // Calculate average typing speed (characters per second)
+      if (totalTypingTime > 0) {
+        totalTypingSpeed = (totalSentences * 60) / totalTypingTime;
+      }
+
+      // 입력 칸 숨기기
+      document.getElementById("input").style.display = "none";
+
+      // 결과 표시하기
+      var resultElement = document.getElementById("result");
+      resultElement.innerHTML = '<h3>타자 연습 결과:</h3>';
+
+      var table = document.createElement('table');
+      table.innerHTML = '<thead><tr><th>문장</th><th>시간(초)</th><th>오타 수</th></tr><tbody>';
+
+      typedSentences.forEach(function(item) {
+        table.innerHTML += `<tr><td>${item.sentence}</td><td>${item.time.toFixed(2)}</td><td>${item.errors}</td></tr>`;
+      });
+
+      table.innerHTML += '</tbody></table>';
+      resultElement.appendChild(table);
+
+      // 타수 표시하기
+      var typingSpeedElement = document.createElement('p');
+      typingSpeedElement.textContent = `평균 타수: ${totalTypingSpeed.toFixed(2)}타/분`;
+      resultElement.appendChild(typingSpeedElement);
+
+      // 다시 시작하기 버튼 보이기
+      var restartButton = document.createElement('button');
+      restartButton.textContent = "다시 시작하기";
+      restartButton.addEventListener('click', restartGame);
+      resultElement.appendChild(restartButton);
+
+      // 결과 창 보이기
+      resultElement.style.display = 'block';
+    }
+
+    function restartGame() {
+      sentenceIndex = 0;
+      typedSentences = [];
+      document.getElementById("input").style.display = "none";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("gametitle").style.display = "block";
+      document.getElementById("start-description").style.display = "block";
+      startGame();
+    }
+  </script>
 </head>
 <body>
-    <header>
-        <h1>안냐세요 타자 연습 창입니다</h1>
-        <p>대충 설명</p>
-        <a href='final_project.html'>홈 화면으로 돌아가기</a>
-    </header>
-    <nav>
-    </nav>
-    <aside>
-    </aside>
-    <footer>
-
-    </footer>
-    <script>
-    </script>
+  <header>
+    <a href='final_project.html'>홈 화면으로 돌아가기</a>
+  </header>
+  <h1 id="gametitle">타자 연습 게임</h1>
+  <div id="start-description">
+    <p>시작 버튼을 눌러 문장을 확인하세요. 문장 입력 후 엔터 키를 눌러주세요.</p>
+  </div>
+  <div id="game-container">
+    <h3 id="sentence"></h3>
+    <input id="input" type="text" onkeydown="if(event.keyCode===13) endGame()" disabled>
+    <p>
+      <button id="start-button" onclick="startGame()">START</button>
+    </p>
+  </div>
+  <div id="result"></div>
 </body>
 </html>
- 
