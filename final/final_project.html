@@ -95,15 +95,6 @@
             text-align: left;
         }
 
-        .bottom-menu .submenu li {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .bottom-menu li:hover .submenu {
-            display: block;
-        }
-
         footer {
             text-align: center;
             padding: 20px 0;
@@ -156,15 +147,15 @@
             content: url('empty.jpg');
         }
 
-        .bottom-menu li.menu-item-easy:hover .menu-image {
+        .bottom-menu li.menu-item-easy.active .menu-image {
             content: url('full.jpg');
         }
 
-        .bottom-menu li.menu-item-normal:hover .menu-image {
+        .bottom-menu li.menu-item-normal.active .menu-image {
             content: url('full.jpg');
         }
 
-        .bottom-menu li.menu-item-hard:hover .menu-image {
+        .bottom-menu li.menu-item-hard.active .menu-image {
             content: url('full.jpg');
         }
 
@@ -185,6 +176,10 @@
 
         .bottom-menu .submenu li a:hover {
             color: #3cba54; /* Green color on hover */
+        }
+
+        .bottom-menu li.active .submenu {
+            display: block;
         }
     </style>
 </head>
@@ -247,6 +242,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             updateLoginStatus();
+
+            const menuItems = document.querySelectorAll('.bottom-menu li');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
         });
 
         function updateLoginStatus() {
