@@ -118,31 +118,27 @@
     var currentSentence;
     var startTime;
     var endTime;
-    var totalSentences = 5; // 입력할 문장의 수
+    var totalSentences = 5; 
     var typedSentences = [];
     var sentenceIndex = 0;
 
     function startGame() {
       if (sentenceIndex === 0) {
-        typedSentences = []; // 게임을 다시 시작할 때 초기화
+        typedSentences = []; 
         document.getElementById("gametitle").style.display = 'none';
-        document.getElementById("start-description").style.display = "none"; // 시작 설명 숨기기
+        document.getElementById("start-description").style.display = "none"; 
       }
 
-      // 문장 보여주기
       currentSentence = getRandomSentence();
       document.getElementById("sentence").textContent = currentSentence;
 
-      // 입력 칸 보이기
       document.getElementById("input").style.display = 'block';
       document.getElementById("input").value = "";
       document.getElementById("input").disabled = false;
       document.getElementById("input").focus();
 
-      // 시작 버튼 숨기기
       document.getElementById("start-button").style.display = "none";
 
-      // 시작 시간 기록
       startTime = new Date().getTime();
     }
 
@@ -160,7 +156,6 @@
         var sentenceLength = currentSentence.length;
         var errors = 0;
 
-        // Calculate errors based on Levenshtein distance
         errors = levenshteinDistance(currentSentence, typedText);
 
         typedSentences.push({
@@ -177,7 +172,6 @@
           showResult();
         }
 
-        // 모든 문장 입력 후 입력 칸과 문제 숨기기
         if (sentenceIndex === totalSentences) {
           document.getElementById("input").style.display = "none";
           document.getElementById("game-container").style.display = "none";
@@ -185,7 +179,6 @@
       }
     }
 
-    // Function to calculate Levenshtein distance (edit distance)
     function levenshteinDistance(a, b) {
       var matrix = [];
       var cost;
@@ -193,7 +186,6 @@
       if (a.length === 0) return b.length;
       if (b.length === 0) return a.length;
 
-      // Initialize matrix
       for (var i = 0; i <= b.length; i++) {
         matrix[i] = [i];
       }
@@ -202,14 +194,13 @@
         matrix[0][j] = j;
       }
 
-      // Calculate Levenshtein distance
       for (var i = 1; i <= b.length; i++) {
         for (var j = 1; j <= a.length; j++) {
           cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
           matrix[i][j] = Math.min(
-            matrix[i - 1][j] + 1,    // Deletion
-            matrix[i][j - 1] + 1,    // Insertion
-            matrix[i - 1][j - 1] + cost  // Substitution
+            matrix[i - 1][j] + 1,   
+            matrix[i][j - 1] + 1,   
+            matrix[i - 1][j - 1] + cost  
           );
         }
       }
@@ -227,12 +218,10 @@
         totalErrors += item.errors;
       });
 
-      // Calculate average typing speed (characters per second)
       if (totalTypingTime > 0) {
         totalTypingSpeed = (totalSentences * 60) / totalTypingTime;
       }
 
-      // 결과 표시하기
       var resultElement = document.getElementById("result");
       resultElement.innerHTML = '<h3>타자 연습 결과:</h3>';
 
@@ -246,18 +235,15 @@
       table.innerHTML += '</tbody></table>';
       resultElement.appendChild(table);
 
-      // 타수 표시하기
       var typingSpeedElement = document.createElement('p');
       typingSpeedElement.textContent = `평균 타수: ${totalTypingSpeed.toFixed(2)}타/분`;
       resultElement.appendChild(typingSpeedElement);
 
-      // 다시 시작하기 버튼 보이기
       var restartButton = document.createElement('button');
       restartButton.textContent = "다시 시작하기";
       restartButton.addEventListener('click', restartGame);
       resultElement.appendChild(restartButton);
 
-      // 결과 창 보이기
       resultElement.style.display = 'block';
     }
 

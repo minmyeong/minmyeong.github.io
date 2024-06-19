@@ -12,7 +12,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif; /* 기본 폰트 지정 */
+      font-family: Arial, sans-serif;
     }
 
     .center {
@@ -23,9 +23,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px; /* 섹션 간의 간격 조정 */
+      gap: 20px;
       width: 80%;
-      max-width: 800px; /* 최대 너비 설정 */
+      max-width: 800px;
       margin-top: 20px;
     }
 
@@ -33,18 +33,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px; /* 입력 요소 간의 간격 조정 */
-      max-width: 400px; /* 입력 섹션 최대 너비 설정 */
+      gap: 10px;
+      max-width: 400px;
     }
 
     .input-section > div {
       display: flex;
-      gap: 5px; /* 버튼 간의 간격 조정 */
+      gap: 5px;
     }
 
     .inputNumber {
-      width: 120px; /* 입력 칸 너비 확대 */
-      height: 80px; /* 입력 칸 높이 확대 */
+      width: 120px;
+      height: 80px;
       margin: 5px;
       text-align: center;
       font-size: 25px;
@@ -52,13 +52,13 @@
 
     .keypad-section {
       display: flex;
-      gap: 10px; /* 키패드 간격 조정 */
+      gap: 10px;
     }
 
     .keypad {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 그리드 레이아웃으로 숫자 버튼 정렬 */
-      gap: 10px; /* 그리드 간격 설정 */
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
     .numberBtn {
@@ -80,21 +80,21 @@
 
     .fnBtn {
       background-color: white;
-      width: 100px; /* 너비 조정 */
-      height: 60px; /* 높이 조정 */
-      font-size: 20px; /* 글꼴 크기 조정 */
-      margin-top: 10px; /* 위쪽 여백 추가 */
+      width: 100px;
+      height: 60px;
+      font-size: 20px;
+      margin-top: 10px;
       cursor: pointer;
     }
 
     .results-section {
       width: 100%;
-      max-width: 400px; /* 결과 섹션 최대 너비 설정 */
+      max-width: 400px;
     }
 
     .result-entry {
       margin: 10px 0;
-      font-size: 14px; /* 결과 기록 폰트 크기 줄이기 */
+      font-size: 14px;
     }
 
     .hidden {
@@ -106,7 +106,6 @@
       top: 10px;
       left: 10px;
       background-color: white;
-      display: center;
       width: 150px;
       height: 30px;
       margin: 5px;
@@ -157,7 +156,7 @@
       </div>
     </div>
 
-    <div style="text-align: center;"> <!-- 플레이 버튼을 가운데 정렬 -->
+    <div style="text-align: center;">
       <input type="button" value="플레이" class="fnBtn" onclick="playGame()" />
     </div>
   </div>
@@ -171,12 +170,12 @@
 <script>
   var ans = [];
   var inputBox = document.getElementsByClassName("inputNumber");
-  var gameResults = []; // 게임 결과를 저장할 배열
+  var gameResults = [];
 
   function startGame() {
     document.getElementById("intro").classList.add("hidden");
     document.getElementById("game").classList.remove("hidden");
-    createNum(); // 자동으로 난수 생성
+    createNum();
   }
 
   function createNum() {
@@ -205,7 +204,7 @@
 
     for (var i = 0; i < inputBox.length; i++) {
       num.push(parseInt(inputBox[i].value));
-      inputBox[i].value = ""; // 입력 칸 비우기
+      inputBox[i].value = "";
     }
 
     for (var i = 0; i < 3; i++) {
@@ -217,17 +216,14 @@
       }
     }
 
-    // 결과 기록을 배열에 추가
     var resultText = `입력한 숫자: ${num.join(", ")} - ${strike} Strike, ${ball} Ball`;
     gameResults.push(resultText);
 
-    // 정답일 경우 메시지 표시
     if (strike === 3) {
       document.getElementById("answerMessage").textContent = "정답입니다!";
       document.getElementById("answerMessage").classList.remove("hidden");
     }
 
-    // 결과 창 업데이트
     updateResults();
   }
 

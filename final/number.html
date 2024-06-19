@@ -13,13 +13,13 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      position: relative; /* 부모 요소를 relative로 설정 */
+      position: relative;
     }
     .game-container {
       text-align: center;
       padding: 20px;
       border-radius: 10px;
-      position: relative; /* 자식 요소의 위치를 absolute로 설정하기 위해 부모 요소도 relative로 설정 */
+      position: relative;
     }
     h1 {
       font-size: 36px;
@@ -45,24 +45,23 @@
       margin-top: 10px;
     }
     .submit-button:hover {
-      background-color: 56b3;
+      background-color: #56b3;
     }
     #message {
       font-size: 24px;
       margin-top: 20px;
     }
-    /* 홈 화면으로 돌아가기 버튼 스타일 */
     .home-button {
-      position: fixed; /* 고정 위치 지정 */
-      top: 10px; /* 위쪽 여백 */
-      left: 10px; /* 왼쪽 여백 */
+      position: fixed;
+      top: 10px;
+      left: 10px;
       font-size: 16px;
       padding: 8px 16px;
       color: rgb(0, 0, 0);
       border: none;
       cursor: pointer;
       border-radius: 5px;
-      z-index: 999; /* 다른 요소들 위에 배치 */
+      z-index: 999;
     }
   </style>
 </head>
@@ -75,7 +74,6 @@
     <p id="message"></p>
   </div>
 
-  <!-- 홈 화면으로 돌아가기 버튼 -->
   <button class="home-button" onclick="goToHomePage()">홈 화면으로 돌아가기</button>
 
   <script>

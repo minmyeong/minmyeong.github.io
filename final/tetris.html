@@ -171,14 +171,14 @@
                 playerReset();
                 arenaSweep();
                 updateScore();
-                // Check if the top row (index 0) of the arena is filled
+               
                 for (let x = 0; x < arena[0].length; ++x) {
                     if (arena[0][x] !== 0) {
                         alert("Game Over!");
                         player.score = 0;
                         updateScore();
-                        arena.forEach(row => row.fill(0)); // Clear the arena
-                        return; // Exit function immediately after game over
+                        arena.forEach(row => row.fill(0)); 
+                        return;
                     }
                 }
             }
@@ -266,7 +266,7 @@
         update();
 
         function goHome() {
-            window.location.href = "final_project.html"; // Replace with your actual home page file name
+            window.location.href = "final_project.html";
         }
     </script>
 </body>

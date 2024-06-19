@@ -6,10 +6,9 @@ body {
     flex-direction: column;
     min-height: 100vh;
     position: relative;
-    /* 배경 이미지 추가 */
     background-image: url('back.jpg');
-    background-size: cover; /* 배경 이미지를 화면에 맞추어 크기 조정 */
-    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
-    background-position: center calc(100% + 230px); /* 배경 이미지 중앙 정렬 */
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center calc(100% + 230px);
     opacity: 0.8; 
 }

@@ -81,16 +81,15 @@
   }
 
   .home-button {
-      position: fixed; /* 고정 위치 지정 */
-      top: 10px; /* 위쪽 여백 */
-      left: 10px; /* 왼쪽 여백 */
+      position: fixed;
+      left: 10px; 
       font-size: 16px;
       padding: 8px 16px;
       color: rgb(0, 0, 0);
       border: none;
       cursor: pointer;
       border-radius: 5px;
-      z-index: 999; /* 다른 요소들 위에 배치 */
+      z-index: 999; 
     }
 
 </style>
@@ -111,18 +110,16 @@
   </div>
 </div>
 
-<!-- 홈 화면으로 돌아가기 버튼 -->
 <button class="home-button" onclick="goToHomePage()">홈 화면으로 돌아가기</button>
 
 <script>
-  // Variables
   let currentZoomLevel = 1;
   const zoomBar = document.getElementById('zoom-bar');
   const zoomSlider = document.getElementById('zoom-slider');
   const zoomImage = document.getElementById('zoom-image');
   const answerImage = document.getElementById('answer-image');
   let currentStage = 1;
-  const totalStages = 3; // Total number of stages
+  const totalStages = 3;
   const images = [
     { url: 'sookmyung.png', initialZoom: getRandomZoom(), answerUrl: 'sookmyung.png' },
     { url: 'cs.png', initialZoom: getRandomZoom(), answerUrl: 'cs.png' },
@@ -130,12 +127,9 @@
   ];
 
   let isDragging = false;
-  let clearState = false; // Variable to track clear state
-
-  // Initialize first stage
+  let clearState = false; 
   updateStage();
 
-  // Zoom slider event listeners
   zoomSlider.addEventListener('mousedown', function(event) {
     isDragging = true;
     adjustZoom(event);
@@ -151,31 +145,28 @@
     isDragging = false;
   });
 
-  // Adjust zoom function
   function adjustZoom(event) {
     const rect = zoomBar.getBoundingClientRect();
     let position = (event.clientX - rect.left) / zoomBar.clientWidth;
 
-    // Clamp position to be within 0 to 1
     position = Math.max(0, Math.min(position, 1));
 
     const zoomLevel = 1 + position;
     zoomImage.style.transform = `scale(${zoomLevel})`;
     currentZoomLevel = zoomLevel;
 
-    // Update zoom slider position
     const sliderWidth = zoomSlider.offsetWidth;
     const containerWidth = zoomBar.clientWidth;
     const newPosition = (containerWidth - sliderWidth) * position;
     zoomSlider.style.left = `${newPosition}px`;
 
-    // Check if current zoom level matches the answer
+   
     const tolerance = 0.05;
     const currentZoom = parseFloat(currentZoomLevel.toFixed(2));
     const answerZoom = parseFloat(images[currentStage - 1].initialZoom.toFixed(2));
 
-    if (Math.abs(currentZoom - answerZoom) <= tolerance && !clearState) { // Check clear state
-      clearState = true; // Set clear state to true
+    if (Math.abs(currentZoom - answerZoom) <= tolerance && !clearState) { 
+      clearState = true; 
       zoomImage.style.transition = 'transform 0.3s ease-out';
       zoomImage.style.transform = `scale(${answerZoom * 1.1})`;
       zoomImage.style.pointerEvents = 'none';
@@ -195,8 +186,7 @@
           zoomImage.style.pointerEvents = 'auto';
           zoomSlider.addEventListener('mousedown', adjustZoom);
 
-          clearState = false; // Reset clear state
-
+          clearState = false; 
         } else {
           zoomImage.style.transition = '';
           zoomImage.style.transform = '';
@@ -205,7 +195,7 @@
           if (!gameCompleted) {
             gameCompleted = true;
             alert('모든 스테이지를 클리어했습니다!');
-            location.href = 'final_project.html'; // Redirect to final_project.html
+            location.href = 'final_project.html'; 
           }
         }
       }, 0);

@@ -64,23 +64,19 @@
     </div>
 
     <script>
-        // 회원가입 함수
         function signUp(username, password, fullName, email) {
-            // 이미 존재하는 사용자인지 확인
             if (localStorage.getItem(username)) {
-                return false; // 이미 존재하는 사용자
+                return false;
             }
-            // 추가 정보도 함께 저장
             let userInfo = {
                 password: password,
                 fullName: fullName,
                 email: email
             };
             localStorage.setItem(username, JSON.stringify(userInfo));
-            return true; // 회원가입 성공
+            return true;
         }
 
-        // 회원가입 폼 submit 이벤트 핸들러
         document.getElementById('signupForm').addEventListener('submit', function(event) {
             event.preventDefault();
             let username = document.getElementById('signupUsername').value.trim();
@@ -90,10 +86,9 @@
 
             if (signUp(username, password, fullName, email)) {
                 document.getElementById('signupMessage').innerText = '회원가입이 완료되었습니다.';
-                // 회원가입 완료 후 login.html로 리다이렉트
                 setTimeout(function() {
                     window.location.href = 'login.html';
-                }, 1000); // 1초 후 login.html로 이동
+                }, 1000);
             } else {
                 document.getElementById('signupMessage').innerText = '이미 존재하는 사용자입니다.';
             }
