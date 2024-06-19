@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Find the Different Color Game</title>
 <link rel="stylesheet" href="style.css">
+<title>다른 색상 찾기</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -12,6 +12,14 @@
         background-color: #ffffff;
         margin: 0;
         padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* 화면 전체 높이에 맞추기 */
+    }
+    h1 {
+        margin-top: 0;
     }
     #container {
         display: grid;
@@ -46,6 +54,22 @@
         margin-top: 10px;
         display: none;
     }
+    #start-container {
+        margin-top: 20px;
+    }
+    #start-button {
+        padding: 10px 20px;
+        background-color: green;
+        color: white;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    #choice-buttons {
+        display: none;
+        margin-top: 20px;
+    }
     #restart-button, #home-button {
         padding: 10px 20px;
         margin: 5px;
@@ -56,20 +80,6 @@
         border-radius: 5px;
         font-size: 16px;
         display: none;
-    }
-    #start-button {
-        padding: 10px 20px;
-        background-color: #2196F3;
-        color: white;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-top: 20px;
-    }
-    #choice-buttons {
-        display: none;
-        margin-top: 20px;
     }
     .modal-overlay {
         position: fixed;
@@ -94,7 +104,7 @@
 </style>
 </head>
 <body>
-<h1>Find the Different Color</h1>
+<h1>다른 색상 찾기 게임</h1>
 <div id="level-text">Click Start to Play!</div>
 <div id="container"></div>
 <div id="message-container">
@@ -103,7 +113,9 @@
     <div id="success-text">Correct!</div>
     <div id="stage-fail-text">Stage Fail!</div>
 </div>
-<button id="start-button" onclick="startGame()">Start</button>
+<div id="start-container">
+    <button id="start-button" onclick="startGame()">Start</button>
+</div>
 <div id="choice-buttons">
     <button id="restart-button" onclick="resetGame()">Restart</button>
     <button id="home-button" onclick="goHome()">Home</button>
@@ -129,7 +141,7 @@ function startGame() {
     failChance = 3;
     updateLevelText();
     renderColorBoxes();
-    document.getElementById('start-button').style.display = 'none';
+    document.getElementById('start-container').style.display = 'none';
     clearMessages();
     hideChoiceButtons();
 }
@@ -318,7 +330,7 @@ function resetGame() {
     correctCount = 0;
     failCount = 0;
     renderColorBoxes();
-    document.getElementById('start-button').style.display = 'block';
+    document.getElementById('start-container').style.display = 'block';
     hideChoiceButtons();
     hideOverlay(); // Ensure overlay is hidden when restarting
 }

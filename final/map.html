@@ -1,43 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <h3>현재 위치와 지도 출력</h3>
-        <hr>
-        <div id="msg">현재 시간 Wed, 19 Jun 2024 10:33:18 GMT<br>현재 위치 (위도 37.5927°, 경도 127.016°)<br>정확도 500m<br></div>
-        <iframe id="map" width="425" height="350" frameborder="0" scrolling="no" marginheight="0"  ="" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=127.006%2C37.5827%2C127.02600000000001%2C37.6027"></iframe><br>
-        
-        <a id="bigmaplink" target="_blank" href="https://www.openstreetmap.org/#map=15/37.5927/127.016">새 창에 큰 지도 보기</a>
-        
-        <script>
-        if(navigator.geolocation) 
-            navigator.geolocation.getCurrentPosition(success); // 현재 위치 정보 요청
-        else 
-            alert("지원하지 않음");
-        // 위치 파악 시 success() 호출. 위치 정보가 들어 있는 position 객체가 매개 변수로 넘어온다.
-    function success(position) {
-        let lat = position.coords.latitude; // 위도
-        let lon = position.coords.longitude; // 경도
-        let acc = position.coords.accuracy; // 정확도
-       // 위도와 경도의 소수점 이하 자리가 너무 길어 유효 숫자 6자리로 짜름
-        lat = lat.toPrecision(6); lon = lon.toPrecision(6);
-        let now = new Date();
-        let text = "현재 시간 " + now.toUTCString() + "<br>";
-        text += "현재 위치 (위도 " + lat + "°, 경도 " + lon + "°)<br>";
-        text += "정확도 " + acc + "m<br>";
-        document.getElementById("msg").innerHTML = text;
-        let map = document.getElementById("map");
-        map.src ="https://www.openstreetmap.org/export/embed.html?bbox=" + (parseFloat(lon)-0.01) + "%2C" + (parseFloat(lat)-0.01) + "%2C" + (parseFloat(lon)+0.01) + "%2C" + (parseFloat(lat) + 0.01);
-            // lat와 lon은 문자열이므로 숫자로 바꾸기 위해 parseFloat() 사용
-        let maplink = document.getElementById("bigmaplink");
-        let zoom = 15; // 지도의 줌 레벨. 숫자가 클수록 자세한 지도
-        maplink.href = "https://www.openstreetmap.org/#map=" + zoom + "/" + lat + "/" + lon;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kakao Map Example</title>
+    <style>
+        /* Optional: CSS for map container */
+        #map {
+            width: 100%;
+            height: 400px; /* Specify the height as per your requirement */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6e7d51bb0333a0c1fdc75d30195b8f32"></script>
+    <script>
+        var container = document.getElementById('map'); 
+        var options = { 
+            center: new kakao.maps.LatLng(37.6584, 126.8320), 
+            level: 3 
+        };
+
+        var map = new kakao.maps.Map(container, options);
     </script>
-    
-    </body>
+</body>
 </html>
