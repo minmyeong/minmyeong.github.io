@@ -6,6 +6,27 @@
     <title>Homepage</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styling */
+        header {
+            margin-top: 100px;
+            text-align: center; /* 헤더 내용 가운데 정렬 */
+            padding: 20px 0;
+        }
+
+        /* 로그인 상태 중앙 정렬 및 연한 색상 */
+        #login-status {
+            font-weight: bold;
+            color: #888; /* 연한 회색 */
+        }
+
+        /* Menu styling */
         .menu {
             background-color: white;
             padding: 10px;
@@ -47,9 +68,9 @@
             left: 50%;
             top: calc(100% + 10px); /* 상위 메뉴 아래에 10px 간격 */
             transform: translateX(-50%);
-            padding: 10px;
+            padding: 15px; /* Increased padding for better spacing */
             z-index: 1;
-            width: 200px;
+            width: 250px; /* Increased width of the submenu */
             background-color: white;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
@@ -110,6 +131,7 @@
         .bottom-menu li {
             margin: 0 20px;
             cursor: pointer;
+            list-style-type: none; /* 불릿 스타일 제거 */
         }
 
         .bottom-menu .menu-title {
@@ -123,9 +145,9 @@
             left: 50%;
             top: calc(100% + 10px); /* 상위 메뉴 아래에 10px 간격 */
             transform: translateX(-50%);
-            padding: 10px;
+            padding: 15px; /* Increased padding for better spacing */
             z-index: 1;
-            width: 200px;
+            width: 250px; /* Increased width of the submenu */
             background-color: white;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
@@ -147,13 +169,37 @@
             padding: 20px 0;
             margin-top: auto;
         }
+        
+        footer ul {
+            padding: 0;
+            list-style-type: none; /* 불릿 스타일 제거 */
+        }
+
+        footer li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: black;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        h1{
+            font-size:80px;
+            text:bold;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>제목</h1>
-        <p>설명</p>
+        <h1>찾았다! 동심의 세계</h1>
+        <p id="login-status">로그인 상태: 로그인 중</p>
     </header>
+    
     <nav>
         <!-- Optional Nav Content -->
     </nav>
@@ -165,28 +211,29 @@
         <div class="bottom-menu">
             <ul class="menu">
                 <li>
-                    <span class="menu-title">미니게임</span>
+                    <span class="menu-title">easy</span>
                     <ul class="submenu">
                         <li><a href="number.html">숫자 맞추기</a></li>
-                        <li><a href="match.html">카드매치게임</a></li>
-                        <li><a href="tetris.html">테트리스</a></li>
-                        <li><a href="zoom.html">초점 맞추기</a></li>
-                        <li><a href="baseball.html">야구 게임</a></li>
-                        <li><a href="different.html">다른 색상 찾기</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="menu-title">방탈출 게임</span>
-                    <ul class="submenu">
-                        <li><a href="rock.html">가위바위보</a></li>
                         <li><a href="snake.html">뱀 게임</a></li>
+                        <li><a href="rock.html">가위바위보</a></li>
+                        <li><a href="zoom.html">초점 맞추기</a></li>
                     </ul>
                 </li>
                 <li>
-                    <span class="menu-title">랭킹 게임!</span>
+                    <span class="menu-title">normal</span>
+                    <ul class="submenu">
+                        <li><a href="tetris.html">테트리스</a></li>
+                        <li><a href="match.html">카드매치게임</a></li>
+                        <li><a href="snake.html">뱀 게임</a></li>
+                        <li><a href="baseball.html">야구 게임</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="menu-title">hard</span>
                     <ul class="submenu">
                         <li><a href="taja.html">타자 속도 랭킹</a></li>
                         <li><a href="speed.html">반응 속도 게임</a></li>
+                        <li><a href="different.html">다른 색상 찾기</a></li>
                     </ul>
                 </li>
             </ul>
@@ -194,8 +241,9 @@
     </div>
     <footer>
         <ul>
-            <li><a href="login.html">로그인</a> </li>
+            <li><a href="login.html">로그인</a></li>
             <li><a href="map.html">현재 위치</a></li>
+        </ul>
     </footer>
 </body>
 </html>

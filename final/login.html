@@ -13,11 +13,12 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: #f0f0f0;
         }
         .container {
             width: 300px;
             padding: 20px;
-            background-color: #f2f2f2;
+            background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -47,6 +48,17 @@
             color: red;
             text-align: center;
         }
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +70,9 @@
             <button type="submit">로그인</button>
             <p id="loginMessage" class="message"></p>
         </form>
+        <div class="signup-link">
+            <p>계정이 없으신가요? <a href="join.html">회원가입</a></p>
+        </div>
     </div>
 
     <script>
