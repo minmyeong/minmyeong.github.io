@@ -57,7 +57,7 @@
             display: flex;
             justify-content: center;
             position: absolute;
-            top: calc(50% + 60px); /* Adjust to align with line */
+            top: calc(50% + 60px); /* Adjust to align with the line */
             width: 100%;
         }
 
@@ -74,9 +74,11 @@
         }
 
         .bottom-menu li {
-            margin: 0 20px;
+            margin: 0 30px;
             cursor: pointer;
             list-style-type: none;
+            position: relative;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .bottom-menu .menu-title {
@@ -133,12 +135,56 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        /* Image Styles */
+        .menu-image {
+            position: absolute;
+            top: -70px; /* Adjust to position the image properly */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            opacity: 1; /* Always visible */
+            width: 50px; /* Adjust image width */
+            height: auto; /* Maintain aspect ratio */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        /* Image Positions */
+        .menu-item-easy .menu-image {
+            top: -70px; /* Adjust to position the image properly */
+            content: url('empty.jpg'); /* Default image */
+        }
+
+        .menu-item-normal .menu-image {
+            top: -70px; /* Adjust to position the image properly */
+            content: url('empty.jpg'); /* Default image */
+        }
+
+        .menu-item-hard .menu-image {
+            top: -70px; /* Adjust to position the image properly */
+            content: url('empty.jpg'); /* Default image */
+        }
+
+        .bottom-menu li.menu-item-easy:hover .menu-image {
+            content: url('full.jpg'); /* Image on hover */
+        }
+
+        .bottom-menu li.menu-item-normal:hover .menu-image {
+            content: url('full.jpg'); /* Image on hover */
+        }
+
+        .bottom-menu li.menu-item-hard:hover .menu-image {
+            content: url('full.jpg'); /* Image on hover */
+        }
+        h1{
+            font-size: 50px;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>찾았다! 동심의 세계</h1>
-        <p id="login-status">로그인 상태: 로그인 중</p>
+        <p id="login-status">로그인 상태: 로그인 필요</p>
         <div class="line-between"></div>
     </header>
     
@@ -154,7 +200,7 @@
     <div class="bottom-menu-container">
         <div class="bottom-menu">
             <ul class="menu">
-                <li>
+                <li class="menu-item-easy">
                     <span class="menu-title">easy</span>
                     <ul class="submenu">
                         <li><a href="number.html">숫자 맞추기</a></li>
@@ -162,8 +208,9 @@
                         <li><a href="rock.html">가위바위보</a></li>
                         <li><a href="zoom.html">초점 맞추기</a></li>
                     </ul>
+                    <img src="empty.jpg" alt="Easy Image" class="menu-image">
                 </li>
-                <li>
+                <li class="menu-item-normal">
                     <span class="menu-title">normal</span>
                     <ul class="submenu">
                         <li><a href="tetris.html">테트리스</a></li>
@@ -171,14 +218,16 @@
                         <li><a href="snake.html">뱀 게임</a></li>
                         <li><a href="baseball.html">야구 게임</a></li>
                     </ul>
+                    <img src="empty.jpg" alt="Normal Image" class="menu-image">
                 </li>
-                <li>
+                <li class="menu-item-hard">
                     <span class="menu-title">hard</span>
                     <ul class="submenu">
                         <li><a href="taja.html">타자 속도 랭킹</a></li>
                         <li><a href="speed.html">반응 속도 게임</a></li>
                         <li><a href="different.html">다른 색상 찾기</a></li>
                     </ul>
+                    <img src="empty.jpg" alt="Hard Image" class="menu-image">
                 </li>
             </ul>
         </div>
@@ -190,5 +239,33 @@
             <li><a href="map.html">현재 위치</a></li>
         </ul>
     </footer>
+
+    <script>
+        // 페이지 로드 시 로그인 상태 업데이트
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLoginStatus();
+        });
+
+        // 로그인 상태 업데이트 함수
+        function updateLoginStatus() {
+            let isLoggedIn = false;
+
+            // Check if loggedInUser exists in localStorage
+            let loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                isLoggedIn = true;
+            }
+
+            // Update login status text and style
+            let loginStatusElement = document.getElementById('login-status');
+            if (isLoggedIn) {
+                loginStatusElement.innerText = '로그인 상태: 로그인 중';
+                loginStatusElement.style.color = '#3cba54'; // Green color for logged in
+            } else {
+                loginStatusElement.innerText = '로그인 상태: 로그인 필요';
+                loginStatusElement.style.color = '#db3236'; // Red color for not logged in
+            }
+        }
+    </script>
 </body>
 </html>

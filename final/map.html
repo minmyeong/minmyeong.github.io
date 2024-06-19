@@ -2,14 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회사 위치</title> <!-- 제목을 "회사 위치"로 설정 -->
     <style>
-        /* CSS for map container to make it square */
+        /* CSS for map container to make it square and centered */
         #map {
             width: 400px; /* 정사각형으로 만들기 위해 너비와 높이를 같게 설정 */
             height: 400px;
             margin: 0 auto; /* 가운데 정렬 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>

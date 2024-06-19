@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>로그인</title>
     <style>
         body {
@@ -78,13 +77,16 @@
     <script>
         // 로그인 함수
         function login(username, password) {
-            // 로컬 스토리지에서 저장된 비밀번호 가져오기
-            let storedPassword = localStorage.getItem(username);
-            if (storedPassword === password) {
-                return true; // 로그인 성공
-            } else {
-                return false; // 로그인 실패
+            // 로컬 스토리지에서 저장된 사용자 정보 가져오기
+            let userInfoString = localStorage.getItem(username);
+            if (userInfoString) {
+                // 사용자 정보가 존재하면 JSON 파싱하여 비밀번호 비교
+                let userInfo = JSON.parse(userInfoString);
+                if (userInfo.password === password) {
+                    return true; // 로그인 성공
+                }
             }
+            return false; // 로그인 실패
         }
 
         // 로그인 폼 submit 이벤트 핸들러
@@ -95,7 +97,9 @@
 
             if (login(username, password)) {
                 document.getElementById('loginMessage').innerText = '로그인 성공!';
-                // 로그인 성공 시 final_project.html로 리다이렉트
+                // 로그인 성공 시 localStorage에 loggedInUser 설정
+                localStorage.setItem('loggedInUser', username);
+                // 로그인 성공 시 index.html로 리다이렉트
                 setTimeout(function() {
                     window.location.href = 'final_project.html';
                 }, 1000); // 1초 후 리다이렉트

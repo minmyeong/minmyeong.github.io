@@ -291,40 +291,30 @@ function updateLevelText() {
 
 function showSuccessMessage() {
     document.getElementById('success-text').style.display = 'block';
-    setTimeout(function() {
-        clearMessages();
-        goHome(); // Go home after success message
-    }, 3000);
+    setTimeout(clearMessages, 1000);
 }
 
 function showFailMessage() {
     document.getElementById('fail-text').style.display = 'block';
-    setTimeout(function() {
-        clearMessages();
-        goHome(); // Go home after fail message
-    }, 3000);
+    setTimeout(clearMessages, 1000);
 }
 
 function showStageClearMessage() {
-    document.getElementById('level-up-content').textContent = `Stage Clear! Level ${level}`;
+    document.getElementById('level-up-content').textContent = `Game Clear!`;
     document.getElementById('level-up-modal').style.display = 'flex';
-    document.getElementById('restart-button').style.display = 'block';
-    document.getElementById('home-button').style.display = 'block';
     setTimeout(function() {
-        clearMessages();
-        goHome(); // Go home after stage clear message
-    }, 3000);
+        hideOverlay();
+        goHome();
+    }, 3000); // 3초 후에 홈 화면으로 이동
 }
 
 function showStageFailMessage() {
-    document.getElementById('level-up-content').textContent = `Stage Fail! Level ${level}`;
+    document.getElementById('level-up-content').textContent = `Game Fail!`;
     document.getElementById('level-up-modal').style.display = 'flex';
-    document.getElementById('restart-button').style.display = 'block';
-    document.getElementById('home-button').style.display = 'block';
     setTimeout(function() {
-        clearMessages();
-        goHome(); // Go home after stage fail message
-    }, 3000);
+        hideOverlay();
+        goHome();
+    }, 3000); // 3초 후에 홈 화면으로 이동
 }
 
 function hideMessages() {
@@ -350,8 +340,7 @@ function resetGame() {
 }
 
 function goHome() {
-    window.location.href = 'final_project.html'; // Go back to the home screen
-    hideOverlay(); // Ensure overlay is hidden when going home
+    window.location.href = 'final_project.html'; // 홈 화면으로 이동
 }
 
 function hideChoiceButtons() {
@@ -372,7 +361,7 @@ function showLevelUpModal(level) {
 }
 
 function hideOverlay() {
-    document.getElementById('level-up-modal').style.display = 'none';
+    document.getElementById('level-up-modal').style.display = 'none'; // 오버레이 숨기기
 }
 </script>
 </body>
