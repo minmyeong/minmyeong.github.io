@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>숫자 맞추기 게임</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      position: relative; /* 부모 요소를 relative로 설정 */
+    }
+    .game-container {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      position: relative; /* 자식 요소의 위치를 absolute로 설정하기 위해 부모 요소도 relative로 설정 */
+    }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    input[type="number"] {
+      font-size: 18px;
+      padding: 8px;
+      margin-right: 10px;
+    }
+    .submit-button {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .submit-button:hover {
+      background-color: 56b3;
+    }
+    #message {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    /* 홈 화면으로 돌아가기 버튼 스타일 */
+    .home-button {
+      position: fixed; /* 고정 위치 지정 */
+      top: 10px; /* 위쪽 여백 */
+      left: 10px; /* 왼쪽 여백 */
+      font-size: 16px;
+      padding: 8px 16px;
+      color: rgb(0, 0, 0);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 999; /* 다른 요소들 위에 배치 */
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>숫자 맞추기 게임</h1>
+    <p>1부터 100 사이의 숫자를 맞춰보세요!</p>
+    <input type="number" id="guessField">
+    <button class="submit-button" onclick="checkGuess()">제출</button>
+    <p id="message"></p>
+  </div>
+
+  <!-- 홈 화면으로 돌아가기 버튼 -->
+  <button class="home-button" onclick="goToHomePage()">홈 화면으로 돌아가기</button>
+
+  <script>
+    let targetNumber = Math.floor(Math.random() * 100) + 1;
+    let guessField = document.getElementById('guessField');
+    let messageArea = document.getElementById('message');
+
+    function checkGuess() {
+      let userGuess = parseInt(guessField.value);
+      if (userGuess === targetNumber) {
+        messageArea.textContent = '정답입니다!';
+      } else if (userGuess < targetNumber) {
+        messageArea.textContent = '정답보다 숫자가 작습니다. 더 높은 숫자를 입력하세요.';
+      } else {
+        messageArea.textContent = '정답보다 숫자가 큽니다. 더 낮은 숫자를 입력하세요.';
+      }
+    }
+
+    function goToHomePage() {
+      window.location.href = "final_project.html";
+    }
+  </script>
+</body>
+</html>

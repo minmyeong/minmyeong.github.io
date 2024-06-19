@@ -35,6 +35,7 @@
             top: 20px;
             left: 20px;
             font-size: 18px;
+            z-index: 1; /* 버튼이 다른 요소 위로 올라오도록 z-index 추가 */
         }
         a:hover {
             background-color: rgba(255, 0, 0, 1);
@@ -44,7 +45,7 @@
             max-width: 500px;
             padding: 20px;
             border-radius: 10px;
-            background-color: rgba(255, 0, 0, 0.8);
+            z-index: 1; /* 컨테이너가 다른 요소 위로 올라오도록 z-index 추가 */
         }
         .container button {
             padding: 15px 30px;
@@ -55,9 +56,6 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-        }
-        .container button:hover {
-            background-color: rgba(255, 0, 0, 1);
         }
         #nicknamePopup {
             display: none;
@@ -82,6 +80,7 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            z-index: 1; /* 팝업이 다른 요소 위로 올라오도록 z-index 추가 */
         }
         #popup button, #nicknamePopup button {
             padding: 10px 20px;
@@ -102,7 +101,7 @@
     <header>
         <a href='final_project.html'>홈 화면으로 돌아가기</a>
         <div class="container">
-            <h1>화면이 다른 색으로 변하면 클릭</h1>
+            <h1>색이 변하면 클릭</h1>
             <button id="startButton">게임 시작</button>
         </div>
     </header>
@@ -147,7 +146,6 @@
             document.getElementById('reactionTime').innerText = `${nickname}님의 반응 시간: ${reactionTime}초`;
             document.getElementById('popup').style.display = 'block';
             clearTimeout(timeoutId);
-            document.body.style.backgroundColor = 'red';
             updateButtonStyles();
             isGameStarted = false;
             saveRanking(reactionTime);
@@ -160,7 +158,6 @@
         document.getElementById('restartButton').addEventListener('click', function() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('startButton').style.display = 'block';
-            document.body.style.backgroundColor = 'red';
             updateButtonStyles();
             nickname = '';
             isGameStarted = false;
@@ -178,7 +175,6 @@
                 return;
             }
             document.getElementById('nicknamePopup').style.display = 'none';
-            document.body.style.backgroundColor = 'red';
             updateButtonStyles();
             isGameStarted = true;
             timeoutId = setTimeout(changeColor, Math.random() * 5000 + 2000);

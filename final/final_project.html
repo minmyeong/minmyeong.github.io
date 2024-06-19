@@ -3,28 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        #menu{
+        .menu {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            text-align: center; /* 메뉴 내용 가운데 정렬 */
+            position: relative;
+        }
+
+        .menu:before,
+        .menu:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .menu:before {
+            top: 0;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px 10px 0 10px;
+            border-color: white transparent transparent transparent;
+        }
+
+        .menu:after {
+            bottom: 0;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent white transparent;
+        }
+
+        .menu .submenu {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 10px); /* 상위 메뉴 아래에 10px 간격 */
+            transform: translateX(-50%);
+            padding: 10px;
+            z-index: 1;
+            width: 200px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            text-align: left;
+        }
+
+        .menu li {
+            position: relative;
+            margin: 0 30px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .menu-title {
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .menu li:hover .submenu {
+            display: block;
+        }
+
+        /* Enlarged Image Effect */
+        #enlarged-image {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            transition: transform 0.3s ease-out;
+            transform-origin: center top;
+        }
+
+        .menu li:hover ~ #enlarged-image {
+            transform: scale(1.1);
+        }
+
+        /* Bottom Menu Section */
+        .bottom-menu-container {
             display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 20%;
+            width: 100%;
         }
-        ul li{
+
+        .bottom-menu {
             display: flex;
-            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            border-top: 1px solid;
         }
-        #menu li {
+
+        .bottom-menu .menu {
+            display: inline-flex;
+            padding: 0;
         }
-        ul {
-            list-style-type: none;
+
+        .bottom-menu li {
+            margin: 0 20px;
+            cursor: pointer;
         }
-        #menu:hover ul>li{
-            color:violet;
+
+        .bottom-menu .menu-title {
+            font-size: 18px;
+            font-weight: bold;
         }
-        a{
-            text-decoration: none;
+
+        .bottom-menu .submenu {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 10px); /* 상위 메뉴 아래에 10px 간격 */
+            transform: translateX(-50%);
+            padding: 10px;
+            z-index: 1;
+            width: 200px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            text-align: left;
         }
-        header{
+
+        .bottom-menu .submenu li {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .bottom-menu li:hover .submenu {
+            display: block;
+        }
+
+        /* Footer Styling */
+        footer {
             text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
         }
     </style>
 </head>
@@ -34,38 +155,47 @@
         <p>설명</p>
     </header>
     <nav>
-        <ul>
-            <li id="menu">미니게임
-                <ul>
-                    <li><a href="">수도 맞추기</a></li>
-                    <li><a href="">절대음감게임</a></li>
-                    <li><a href="">포도알 잡기</a></li>
-                    <li><a href="">돋보기 초점 맞추기</a></li>
-                    <li><a href="">야구 게임</a></li>
-                    <li><a href="different,html">다른 색상 찾기</a></li>
-                </ul>
-            </li>
-            <li id="menu">방탈출 게임
-                <ul>
-                    <li><a href="">theme 1</a></li>
-                    <li><a href="">theme 2</a></li>
-                </ul>
-            </li>
-            <li id="menu">랭킹 게임!
-                <ul>
-                    <li><a href="taja.html">타자 속도 랭킹</a></li>
-                    <li><a href="speed.html">반응 속도 게임</a></li>
-                </ul>
-            </li>
-        </ul>
+        <!-- Optional Nav Content -->
     </nav>
     <aside>
+        <!-- Placeholder for enlarged image on hover -->
+        <div id="enlarged-image"></div>
     </aside>
+    <div class="bottom-menu-container">
+        <div class="bottom-menu">
+            <ul class="menu">
+                <li>
+                    <span class="menu-title">미니게임</span>
+                    <ul class="submenu">
+                        <li><a href="number.html">숫자 맞추기</a></li>
+                        <li><a href="match.html">카드매치게임</a></li>
+                        <li><a href="tetris.html">테트리스</a></li>
+                        <li><a href="zoom.html">초점 맞추기</a></li>
+                        <li><a href="baseball.html">야구 게임</a></li>
+                        <li><a href="different.html">다른 색상 찾기</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="menu-title">방탈출 게임</span>
+                    <ul class="submenu">
+                        <li><a href="rock.html">가위바위보</a></li>
+                        <li><a href="snake.html">뱀 게임</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="menu-title">랭킹 게임!</span>
+                    <ul class="submenu">
+                        <li><a href="taja.html">타자 속도 랭킹</a></li>
+                        <li><a href="speed.html">반응 속도 게임</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
     <footer>
-
+        <ul>
+            <li><a href="login.html">로그인</a> </li>
+            <li><a href="map.html">현재 위치</a></li>
     </footer>
-    <script>
-    </script>
 </body>
 </html>
- 

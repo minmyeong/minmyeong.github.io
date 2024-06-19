@@ -4,22 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find the Different Color Game</title>
+<link rel="stylesheet" href="style.css">
 <style>
     body {
         font-family: Arial, sans-serif;
         text-align: center;
-        background-color: #ffffff; /* 배경색을 흰색으로 설정 */
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
     }
     #container {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(7, 50px);
+        gap: 5px;
         justify-content: center;
         margin-top: 20px;
     }
     .color-box {
         width: 50px;
         height: 50px;
-        margin: 5px;
         cursor: pointer;
         border: 2px solid transparent;
         transition: border-color 0.3s ease-in-out;
@@ -32,30 +35,27 @@
         font-weight: bold;
         margin-top: 20px;
     }
-    #clear-text {
+    #message-container {
+        position: relative;
+        margin-top: 20px;
+        width: 100%;
+    }
+    #message-container div {
         font-size: 36px;
         font-weight: bold;
-        margin-top: 50px;
-        color: green;
+        margin-top: 10px;
+        display: none;
     }
-    #fail-text {
-        font-size: 36px;
-        font-weight: bold;
-        margin-top: 50px;
-        color: red;
-    }
-    #restart-button {
-        position: fixed;
-        top: 10px;
-        left: 10px;
+    #restart-button, #home-button {
         padding: 10px 20px;
+        margin: 5px;
         background-color: #4CAF50;
         color: white;
         cursor: pointer;
         border: none;
         border-radius: 5px;
         font-size: 16px;
-        display: none; /* 초기에는 숨김 */
+        display: none;
     }
     #start-button {
         padding: 10px 20px;
@@ -67,38 +67,82 @@
         font-size: 16px;
         margin-top: 20px;
     }
+    #choice-buttons {
+        display: none;
+        margin-top: 20px;
+    }
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 48px;
+        color: white;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
 <h1>Find the Different Color</h1>
 <div id="level-text">Click Start to Play!</div>
 <div id="container"></div>
-<button id="restart-button" onclick="resetGame()">Restart</button>
+<div id="message-container">
+    <div id="clear-text">Clear!</div>
+    <div id="fail-text">Fail!</div>
+    <div id="success-text">Correct!</div>
+    <div id="stage-fail-text">Stage Fail!</div>
+</div>
 <button id="start-button" onclick="startGame()">Start</button>
+<div id="choice-buttons">
+    <button id="restart-button" onclick="resetGame()">Restart</button>
+    <button id="home-button" onclick="goHome()">Home</button>
+</div>
+
+<!-- Modal overlay for level up -->
+<div id="level-up-modal" class="modal-overlay">
+    <div class="modal-content" id="level-up-content"></div>
+</div>
 
 <script>
 let level = 1;
 let correctCount = 0;
 let colors = [];
+let correctBoxIndex = -1;
+let failCount = 0;
+let failChance = 3;
 
-// Function to start the game
 function startGame() {
     level = 1;
     correctCount = 0;
-    colors = generateColors(level);
+    failCount = 0;
+    failChance = 3;
     updateLevelText();
     renderColorBoxes();
     document.getElementById('start-button').style.display = 'none';
+    clearMessages();
+    hideChoiceButtons();
 }
 
-// Function to render color boxes
 function renderColorBoxes() {
     let container = document.getElementById('container');
-    container.innerHTML = ''; // Clear current grid
+    container.innerHTML = '';
+    correctBoxIndex = Math.floor(Math.random() * 49);
+    colors = generateColors(level);
     colors.forEach((color, index) => {
         let box = document.createElement('div');
         box.className = 'color-box';
-        if (index === 48) {
+        if (index === correctBoxIndex) {
             box.dataset.correct = 'true';
         }
         box.style.backgroundColor = color;
@@ -106,70 +150,79 @@ function renderColorBoxes() {
             if (box.dataset.correct === 'true') {
                 box.style.borderColor = 'green';
                 correctCount++;
-                if (correctCount === 3) {
-                    if (level < 5) {
-                        level++;
-                        updateLevelText();
-                        resetGame();
-                    } else {
-                        showClearMessage();
-                    }
+                showSuccessMessage();
+                if (correctCount % 3 === 0 && level < 5) {
+                    level++;
+                    showLevelUpModal(level);
+                } else if (correctCount === 15) {
+                    showStageClearMessage();
+                } else {
+                    setTimeout(renderColorBoxes, 1000);
                 }
             } else {
                 box.style.borderColor = 'red';
+                failCount++;
                 showFailMessage();
+                if (failCount >= failChance) {
+                    showStageFailMessage();
+                } else {
+                    setTimeout(() => {
+                        renderColorBoxes();
+                    }, 1000);
+                }
             }
         });
         container.appendChild(box);
     });
 }
 
-// Function to generate colors for the grid
 function generateColors(level) {
     let colors = [];
     let baseColor = generateRandomColor();
     let subtleDifference = generateSubtleDifference(baseColor, level);
     for (let i = 0; i < 49; i++) {
-        if (i === 48) {
+        if (i === correctBoxIndex) {
             colors.push(subtleDifference);
         } else {
-            colors.push(generateSimilarColor(subtleDifference, level));
+            colors.push(generateSimilarColor(baseColor, level));
         }
     }
     return colors;
 }
 
-// Function to generate a subtle color difference
+function generateRandomColor() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
 function generateSubtleDifference(baseColor, level) {
-    let hsl = rgbToHsl(baseColor.r, baseColor.g, baseColor.b);
+    let hsl = rgbToHsl(baseColor);
     let h = hsl.h;
     let s = hsl.s;
     let l = hsl.l;
-    
-    let newL = clamp(l + level * 5, 0, 100); // Increase lightness for subtle difference
+    let newL = clamp(l + (6 - level) * 5, 0, 100);  // Adjust brightness difference
     let newColor = hslToRgb(h, s, newL);
     return `rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`;
 }
 
-// Function to generate a similar color based on base color and level
 function generateSimilarColor(baseColor, level) {
-    let hsl = rgbToHsl(baseColor.r, baseColor.g, baseColor.b);
+    let hsl = rgbToHsl(baseColor);
     let h = hsl.h;
     let s = hsl.s;
     let l = hsl.l;
-    
-    let newS = clamp(s - level * 5, 0, 100); // Decrease saturation for similar colors
+    let newS = clamp(s - level * 5, 0, 100);  // Adjust saturation difference
     let newColor = hslToRgb(h, newS, l);
     return `rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`;
 }
 
-// Function to clamp color values between 0 and 255
-function clamp(color, min, max) {
-    return Math.min(max, Math.max(min, color));
+function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
 }
 
-// Function to convert RGB to HSL
-function rgbToHsl(r, g, b) {
+function rgbToHsl(rgb) {
+    let [r, g, b] = rgb.match(/\d+/g).map(Number);
     r /= 255;
     g /= 255;
     b /= 255;
@@ -177,7 +230,7 @@ function rgbToHsl(r, g, b) {
     let h, s, l = (max + min) / 2;
 
     if (max === min) {
-        h = s = 0; // achromatic
+        h = s = 0;
     } else {
         let d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -189,10 +242,9 @@ function rgbToHsl(r, g, b) {
         h /= 6;
     }
 
-    return { h: h, s: s * 100, l: l * 100 };
+    return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-// Function to convert HSL to RGB
 function hslToRgb(h, s, l) {
     let r, g, b;
     h /= 360;
@@ -200,7 +252,7 @@ function hslToRgb(h, s, l) {
     l /= 100;
 
     if (s === 0) {
-        r = g = b = l; // achromatic
+        r = g = b = l;
     } else {
         let hue2rgb = function hue2rgb(p, q, t) {
             if (t < 0) t += 1;
@@ -210,6 +262,7 @@ function hslToRgb(h, s, l) {
             if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
             return p;
         };
+
         let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
         let p = 2 * l - q;
         r = hue2rgb(p, q, h + 1 / 3);
@@ -220,44 +273,80 @@ function hslToRgb(h, s, l) {
     return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
 }
 
-// Function to update level text
 function updateLevelText() {
     document.getElementById('level-text').textContent = `Level ${level}`;
 }
 
-// Function to show clear message and restart option
-function showClearMessage() {
-    let clearText = document.createElement('div');
-    clearText.id = 'clear-text';
-    clearText.textContent = 'Clear!';
-    document.body.appendChild(clearText);
-    document.getElementById('restart-button').style.display = 'block';
+function showSuccessMessage() {
+    document.getElementById('success-text').style.display = 'block';
+    setTimeout(clearMessages, 1000);
 }
 
-// Function to show fail message and restart option
 function showFailMessage() {
-    let failText = document.createElement('div');
-    failText.id = 'fail-text';
-    failText.textContent = 'Fail!';
-    document.body.appendChild(failText);
-    setTimeout(() => {
-        resetGame();
-    }, 1000);
+    document.getElementById('fail-text').style.display = 'block';
+    setTimeout(clearMessages, 1000);
 }
 
-// Function to reset the game
+function showStageClearMessage() {
+    document.getElementById('level-up-content').textContent = `Stage Clear! Level ${level}`;
+    document.getElementById('level-up-modal').style.display = 'flex';
+    document.getElementById('restart-button').style.display = 'block';
+    document.getElementById('home-button').style.display = 'block'; 
+}
+
+function showStageFailMessage() {
+    document.getElementById('level-up-content').textContent = `Stage Fail! Level ${level}`;
+    document.getElementById('level-up-modal').style.display = 'flex';
+    document.getElementById('restart-button').style.display = 'block';
+    document.getElementById('home-button').style.display = 'block';
+}
+
+function hideMessages() {
+    document.getElementById('clear-text').style.display = 'none';
+    document.getElementById('fail-text').style.display = 'none';
+    document.getElementById('success-text').style.display = 'none';
+    document.getElementById('stage-fail-text').style.display = 'none';
+}
+
+function clearMessages() {
+    document.getElementById('clear-text').style.display = 'none';
+    document.getElementById('fail-text').style.display = 'none';
+    document.getElementById('success-text').style.display = 'none';
+}
+
 function resetGame() {
     correctCount = 0;
-    colors = generateColors(level);
+    failCount = 0;
     renderColorBoxes();
-    document.getElementById('level-text').textContent = `Level ${level}`;
-    if (document.getElementById('clear-text')) {
-        document.getElementById('clear-text').remove();
-    }
-    if (document.getElementById('fail-text')) {
-        document.getElementById('fail-text').remove();
-    }
+    document.getElementById('start-button').style.display = 'block';
+    hideChoiceButtons();
+    hideOverlay(); // Ensure overlay is hidden when restarting
+}
+
+function goHome() {
+    window.location.href = 'final_project.html'; // Go back to the home screen
+    hideOverlay(); // Ensure overlay is hidden when going home
+}
+
+function hideChoiceButtons() {
     document.getElementById('restart-button').style.display = 'none';
+    document.getElementById('home-button').style.display = 'none'; // Hide home button
+}
+
+function showLevelUpModal(level) {
+    let modalOverlay = document.getElementById('level-up-modal');
+    modalOverlay.style.display = 'flex';
+    let modalContent = document.getElementById('level-up-content');
+    modalContent.textContent = `Level ${level}`;
+    setTimeout(() => {
+        modalOverlay.style.display = 'none';
+        updateLevelText();
+        renderColorBoxes();
+    }, 2000); // Adjust the timeout duration as needed
+}
+
+function hideOverlay() {
+    document.getElementById('level-up-modal').style.display = 'none';
 }
 </script>
 </body>

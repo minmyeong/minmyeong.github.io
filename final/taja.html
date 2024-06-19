@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>타자 연습 게임</title>
+
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -36,7 +38,7 @@
       font-size: 18px;
       margin-top: 10px;
       cursor: pointer;
-      background-color: #007bff;
+      background-color:green;
       color: #fff;
       border: none;
       border-radius: 5px;
@@ -176,6 +178,12 @@
         } else {
           showResult();
         }
+
+        // 모든 문장 입력 후 입력 칸과 문제 숨기기
+        if (sentenceIndex === totalSentences) {
+          document.getElementById("input").style.display = "none";
+          document.getElementById("game-container").style.display = "none";
+        }
       }
     }
 
@@ -226,9 +234,6 @@
         totalTypingSpeed = (totalSentences * 60) / totalTypingTime;
       }
 
-      // 입력 칸 숨기기
-      document.getElementById("input").style.display = "none";
-
       // 결과 표시하기
       var resultElement = document.getElementById("result");
       resultElement.innerHTML = '<h3>타자 연습 결과:</h3>';
@@ -261,10 +266,10 @@
     function restartGame() {
       sentenceIndex = 0;
       typedSentences = [];
-      document.getElementById("input").style.display = "none";
       document.getElementById("result").style.display = "none";
       document.getElementById("gametitle").style.display = "block";
       document.getElementById("start-description").style.display = "block";
+      document.getElementById("game-container").style.display = "block";
       startGame();
     }
   </script>

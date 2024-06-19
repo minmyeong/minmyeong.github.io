@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메모리 매치 게임</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(4, 100px); /* 각 카드 너비 설정 */
+      gap: 5px; /* 그리드 간격 */
+    }
+    .card {
+      width: 100px;
+      height: 150px;
+      border: 1px solid #000;
+      text-align: center;
+      line-height: 150px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .home-button {
+      position: fixed; /* 고정 위치 지정 */
+      top: 10px; /* 위쪽 여백 */
+      left: 10px; /* 왼쪽 여백 */
+      font-size: 16px;
+      padding: 8px 16px;
+      color: rgb(0, 0, 0);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 999; /* 다른 요소들 위에 배치 */
+    }
+
+  </style>
+</head>
+<body>
+  <h1>메모리 매치 게임</h1>
+  <div class="card-container" id="gameBoard">
+    <!-- 카드들을 자바스크립트로 생성 -->
+  </div>
+
+  <!-- 홈 화면으로 돌아가기 버튼 -->
+  <button class="home-button" onclick="goToHomePage()">홈 화면으로 돌아가기</button>
+
+  <script>
+    let cards = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    let shuffledCards = shuffle(cards.concat(cards)); // 카드 섞기
+
+    let gameBoard = document.getElementById('gameBoard');
+    let flippedCards = []; // 뒤집힌 카드를 저장할 배열
+
+    shuffledCards.forEach(function(card, index) {
+      let cardElement = document.createElement('div');
+      cardElement.classList.add('card');
+      cardElement.dataset.cardIndex = index;
+      cardElement.textContent = '?';
+      cardElement.addEventListener('click', flipCard);
+      gameBoard.appendChild(cardElement);
+    });
+
+    let firstCard = null;
+    let secondCard = null;
+
+    function flipCard() {
+      if (this === firstCard || flippedCards.includes(this)) return; // 같은 카드 클릭 방지
+
+      this.textContent = shuffledCards[this.dataset.cardIndex];
+      
+      if (!firstCard) {
+        firstCard = this;
+      } else {
+        secondCard = this;
+        checkMatch();
+      }
+    }
+
+    function checkMatch() {
+      if (firstCard.textContent === secondCard.textContent) {
+        setTimeout(function() {
+          firstCard.style.visibility = 'hidden';
+          secondCard.style.visibility = 'hidden';
+          flippedCards.push(firstCard, secondCard); // 뒤집힌 카드 배열에 추가
+          firstCard = null;
+          secondCard = null;
+          checkWin(); // 게임 승리 여부 확인
+        }, 1000);
+      } else {
+        setTimeout(function() {
+          firstCard.textContent = '?';
+          secondCard.textContent = '?';
+          firstCard = null;
+          secondCard = null;
+        }, 1000);
+      }
+    }
+
+    function checkWin() {
+      if (flippedCards.length === shuffledCards.length) {
+        alert('축하합니다! 모든 카드를 맞추셨습니다!');
+        // 성공 메시지 표시 후 홈 화면으로 돌아가기 버튼을 보이게 함
+        let homeButton = document.querySelector('.home-button');
+        homeButton.style.display = 'block';
+      }
+    }
+
+    function shuffle(array) {
+      let currentIndex = array.length, temporaryValue, randomIndex;
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    function goToHomePage() {
+      window.location.href = "final_project.html";
+    }
+  </script>
+</body>
+</html>

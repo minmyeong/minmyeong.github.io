@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 300px;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 10px;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>로그인</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="사용자 이름" required><br>
+            <input type="password" id="loginPassword" placeholder="비밀번호" required><br>
+            <button type="submit">로그인</button>
+            <p id="loginMessage" class="message"></p>
+        </form>
+    </div>
+
+    <script>
+        // 로그인 함수
+        function login(username, password) {
+            // 로컬 스토리지에서 저장된 비밀번호 가져오기
+            let storedPassword = localStorage.getItem(username);
+            if (storedPassword === password) {
+                return true; // 로그인 성공
+            } else {
+                return false; // 로그인 실패
+            }
+        }
+
+        // 로그인 폼 submit 이벤트 핸들러
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let username = document.getElementById('loginUsername').value.trim();
+            let password = document.getElementById('loginPassword').value.trim();
+
+            if (login(username, password)) {
+                document.getElementById('loginMessage').innerText = '로그인 성공!';
+                // 로그인 성공 시 final_project.html로 리다이렉트
+                setTimeout(function() {
+                    window.location.href = 'final_project.html';
+                }, 1000); // 1초 후 리다이렉트
+            } else {
+                document.getElementById('loginMessage').innerText = '로그인 실패. 사용자 이름 또는 비밀번호를 확인하세요.';
+            }
+        });
+    </script>
+</body>
+</html>

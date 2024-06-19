@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가위, 바위, 보 게임</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      padding: 50px;
+      border-radius: 10px;
+    }
+
+    .buttons button {
+      font-size: 24px;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #rock {
+      background-color: #4CAF50; /* Green */
+      color: white;
+    }
+
+    #scissors {
+      background-color: #f44336; /* Red */
+      color: white;
+    }
+
+    #paper {
+      background-color: #2196F3; /* Blue */
+      color: white;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.1);
+    }
+
+    .result p {
+      font-size: 24px;
+      margin-top: 30px;
+      font-weight: bold;
+      white-space: pre-line;
+    }
+
+    .win {
+      color: green;
+    }
+
+    .lose {
+      color: red;
+    }
+
+    .draw {
+      color: gray;
+    }
+
+    .choice-rock {
+      color: #4CAF50;
+    }
+
+    .choice-scissors {
+      color: #f44336;
+    }
+
+    .choice-paper {
+      color: #2196F3;
+    }
+
+    .player-label {
+      color: black;
+      font-weight: bold;
+    }
+
+    .computer-label {
+      color: black;
+      font-weight: bold;
+    }
+
+    .home-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .home-button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="home-button" onclick="goToHomePage()">홈 화면으로 돌아가기</button>
+    <h1>가위, 바위, 보 게임</h1>
+    
+    <div class="buttons">
+      <button id="rock">바위</button>
+      <button id="scissors">가위</button>
+      <button id="paper">보</button>
+    </div>
+
+    <div class="result">
+      <p id="message"></p>
+    </div>
+  </div>
+  
+  <script>
+    const rockBtn = document.getElementById('rock');
+    const scissorsBtn = document.getElementById('scissors');
+    const paperBtn = document.getElementById('paper');
+    const message = document.getElementById('message');
+
+    const choices = ['바위', '가위', '보'];
+
+    rockBtn.addEventListener('click', () => playGame('바위'));
+    scissorsBtn.addEventListener('click', () => playGame('가위'));
+    paperBtn.addEventListener('click', () => playGame('보'));
+
+    function playGame(playerChoice) {
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      const coloredPlayerChoice = colorChoice(playerChoice);
+      const coloredComputerChoice = colorChoice(computerChoice);
+
+      if (playerChoice === computerChoice) {
+        message.innerHTML = `비겼습니다! \n <span class="player-label">당신:</span> ${coloredPlayerChoice} \n <span class="computer-label">컴퓨터:</span> ${coloredComputerChoice}`;
+        message.className = 'draw';
+      } else if (
+        (playerChoice === '바위' && computerChoice === '가위') ||
+        (playerChoice === '가위' && computerChoice === '보') ||
+        (playerChoice === '보' && computerChoice === '바위')
+      ) {
+        message.innerHTML = `이겼습니다! \n <span class="player-label">당신:</span> ${coloredPlayerChoice} \n <span class="computer-label">컴퓨터:</span> ${coloredComputerChoice}`;
+        message.className = 'win';
+      } else {
+        message.innerHTML = `졌습니다. \n <span class="player-label">당신:</span> ${coloredPlayerChoice} \n <span class="computer-label">컴퓨터:</span> ${coloredComputerChoice}`;
+        message.className = 'lose';
+      }
+    }
+
+    function colorChoice(choice) {
+      if (choice === '바위') {
+        return `<span class="choice-rock">${choice}</span>`;
+      } else if (choice === '가위') {
+        return `<span class="choice-scissors">${choice}</span>`;
+      } else if (choice === '보') {
+        return `<span class="choice-paper">${choice}</span>`;
+      }
+    }
+
+    function goToHomePage() {
+      // Replace 'final_project.html' with the actual path to your home page
+      window.location.href = 'final_project.html';
+    }
+  </script>
+</body>
+</html>
