@@ -291,19 +291,29 @@ function updateLevelText() {
 
 function showSuccessMessage() {
     document.getElementById('success-text').style.display = 'block';
-    setTimeout(clearMessages, 1000);
+    setTimeout(function() {
+        clearMessages();
+        goHome(); // Go home after success message
+    }, 3000);
 }
 
 function showFailMessage() {
     document.getElementById('fail-text').style.display = 'block';
-    setTimeout(clearMessages, 1000);
+    setTimeout(function() {
+        clearMessages();
+        goHome(); // Go home after fail message
+    }, 3000);
 }
 
 function showStageClearMessage() {
     document.getElementById('level-up-content').textContent = `Stage Clear! Level ${level}`;
     document.getElementById('level-up-modal').style.display = 'flex';
     document.getElementById('restart-button').style.display = 'block';
-    document.getElementById('home-button').style.display = 'block'; 
+    document.getElementById('home-button').style.display = 'block';
+    setTimeout(function() {
+        clearMessages();
+        goHome(); // Go home after stage clear message
+    }, 3000);
 }
 
 function showStageFailMessage() {
@@ -311,6 +321,10 @@ function showStageFailMessage() {
     document.getElementById('level-up-modal').style.display = 'flex';
     document.getElementById('restart-button').style.display = 'block';
     document.getElementById('home-button').style.display = 'block';
+    setTimeout(function() {
+        clearMessages();
+        goHome(); // Go home after stage fail message
+    }, 3000);
 }
 
 function hideMessages() {

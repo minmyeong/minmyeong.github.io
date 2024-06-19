@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kakao Map Example</title>
+    <title>회사 위치</title> <!-- 제목을 "회사 위치"로 설정 -->
     <style>
-        /* Optional: CSS for map container */
+        /* CSS for map container to make it square */
         #map {
-            width: 100%;
-            height: 400px; /* Specify the height as per your requirement */
+            width: 400px; /* 정사각형으로 만들기 위해 너비와 높이를 같게 설정 */
+            height: 400px;
+            margin: 0 auto; /* 가운데 정렬 */
         }
     </style>
 </head>
@@ -18,7 +19,7 @@
     <script>
         var container = document.getElementById('map'); 
         var options = { 
-            center: new kakao.maps.LatLng(37.6584, 126.8320), 
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 중심지 좌표로 설정
             level: 3 
         };
 
